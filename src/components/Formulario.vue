@@ -30,6 +30,7 @@ export default defineComponent({
   components:{
     Temporizador
 },
+emits:['aoSalvar'],
 
 data(){
   return{
@@ -38,8 +39,10 @@ data(){
 },
 methods:{
   finalizarTarefa(tempoDecorrido: number): void {
-    console.log('tempo', tempoDecorrido)
-    console.log('tempo', this.descricao)
+    this.$emit('aoSalvar',{
+      duracaoEmSegundos:tempoDecorrido,
+      descricao: this.descricao
+    })
     this.descricao = ''
 
   }
