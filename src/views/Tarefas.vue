@@ -31,7 +31,7 @@ export default defineComponent({
   },
 
   computed: {
-    temTarefa(): boolean {
+   temTarefa(): boolean {
       return this.tarefas.length <= 0;
     },
   },
@@ -39,6 +39,7 @@ export default defineComponent({
     salvarTarefa(tarefa: ITarefa) {
       this.tarefas.push(tarefa);
     },
+     
   },
 });
 </script>

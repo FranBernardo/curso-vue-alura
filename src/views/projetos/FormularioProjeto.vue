@@ -19,6 +19,9 @@
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
 import { useStore } from "@/store";
+import { TipoNoficacao } from "@/interfaces/INotificacao";
+import useNotificador from '@/hooks/notificador'
+
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -28,6 +31,8 @@ export default defineComponent({
       type: String,
     },
   },
+
+  
 
   mounted() {
     if (this.id) {
@@ -44,25 +49,28 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const {notificar} = useNotificador()
     return {
       store,
+      notificar
     };
   },
 
   methods: {
     salvar() {
       if (this.id) {
-        this.store.commit('EDITAR_PROJETO', {
-            id: this.id,
-            nome: this.nomeDoProjeto
-        })
+        this.store.commit("EDITAR_PROJETO", {
+          id: this.id,
+          nome: this.nomeDoProjeto,
+        });
       } else {
         this.store.commit("ADICIONA_PROJETO", this.nomeDoProjeto);
-        
       }
       this.nomeDoProjeto = "";
-        this.$router.push("/projetos");
+      this.notificar(TipoNoficacao.SUCESSO, 'sucesso!','tudo ok!')
+      this.$router.push("/projetos");
     },
+
   },
 });
 </script>
