@@ -20,7 +20,8 @@
 import { defineComponent } from "@vue/runtime-core";
 import { useStore } from "@/store";
 import { TipoNoficacao } from "@/interfaces/INotificacao";
-import { nofiticarcaoMinixs } from "@/mixins/notificar";
+import useNotificador from '@/hooks/notificador'
+
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
@@ -31,7 +32,7 @@ export default defineComponent({
     },
   },
 
-  mixins:[nofiticarcaoMinixs],
+  
 
   mounted() {
     if (this.id) {
@@ -48,8 +49,10 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const {notificar} = useNotificador()
     return {
       store,
+      notificar
     };
   },
 
