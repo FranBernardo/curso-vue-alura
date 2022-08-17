@@ -1,0 +1,1 @@
+export const DEFINIR_PROJETOS = 'DEFENIR_PROJETOS'

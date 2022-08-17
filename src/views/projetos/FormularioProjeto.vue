@@ -21,6 +21,7 @@ import { defineComponent } from "@vue/runtime-core";
 import { useStore } from "@/store";
 import { TipoNoficacao } from "@/interfaces/INotificacao";
 import useNotificador from '@/hooks/notificador'
+import { CADASTRA_PROJETOS, EDITAR_PROJETOS } from "@/store/tipo-acoes";
 
 
 export default defineComponent({
@@ -59,18 +60,21 @@ export default defineComponent({
   methods: {
     salvar() {
       if (this.id) {
-        this.store.commit("EDITAR_PROJETO", {
+        this.store.dispatch(EDITAR_PROJETOS, {
           id: this.id,
           nome: this.nomeDoProjeto,
-        });
+        }).then(() => this.lidarComSucesso());
       } else {
-        this.store.commit("ADICIONA_PROJETO", this.nomeDoProjeto);
+        this.store.dispatch(CADASTRA_PROJETOS, this.nomeDoProjeto)
+        .then(() => this.lidarComSucesso());
       }
-      this.nomeDoProjeto = "";
+      
+    },
+    lidarComSucesso(){
+        this.nomeDoProjeto = "";
       this.notificar(TipoNoficacao.SUCESSO, 'sucesso!','tudo ok!')
       this.$router.push("/projetos");
-    },
-
+    }
   },
 });
 </script>
