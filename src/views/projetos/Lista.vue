@@ -39,12 +39,14 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useStore } from "@/store";
+import { EXCLUIR_PROJETOS, OBTER_PROJETOS } from "@/store/tipo-acoes"
 
 export default defineComponent({
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Lista",
     setup(){
     const store = useStore()
+    store.dispatch(OBTER_PROJETOS)
     return{
       store,
       projetos: computed(() => store.state.projetos)
@@ -52,7 +54,7 @@ export default defineComponent({
   },
   methods:{
      excluir(id:string){
-      const projeto = this.store.commit('EXCLUIR', id)
+     this.store.dispatch(EXCLUIR_PROJETOS, id)
      }
   }
 
