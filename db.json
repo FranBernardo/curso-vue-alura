@@ -8,5 +8,56 @@
       "id": 2,
       "nome": "vuejs"
     }
+  ],
+  "tarefas": [
+    {
+      "id": 1,
+      "duracaoEmSegundos": 120,
+      "descricao": "configuração",
+      "projeto": {
+        "id": 1,
+        "nome": "Alura Tracker"
+      }
+    },
+    {
+      "duracaoEmSegundos": 2,
+      "descricao": "TESTE",
+      "projeto": {
+        "id": 2,
+        "nome": "vuejs"
+      },
+      "id": 2
+    },
+    {
+      "id": 4,
+      "descrição": {
+        "duracaoEmSegundos": 3,
+        "descricao": "solva",
+        "projeto": {
+          "id": 2,
+          "nome": "vuejs"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "descrição": {
+        "duracaoEmSegundos": 2,
+        "descricao": "salvo editou",
+        "projeto": {
+          "id": 1,
+          "nome": "Alura Tracker"
+        }
+      }
+    },
+    {
+      "duracaoEmSegundos": 1,
+      "descricao": "essa ok",
+      "projeto": {
+        "id": 1,
+        "nome": "Alura Tracker"
+      },
+      "id": 6
+    }
   ]
 }

@@ -17,11 +17,12 @@
   </section>
 </template>
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent, ref } from "@vue/runtime-core";
 import { useStore } from "@/store";
 import { TipoNoficacao } from "@/interfaces/INotificacao";
 import useNotificador from '@/hooks/notificador'
 import { CADASTRA_PROJETOS, EDITAR_PROJETOS } from "@/store/tipo-acoes";
+import { useRouter } from "vue-router";
 
 
 export default defineComponent({
@@ -32,49 +33,47 @@ export default defineComponent({
       type: String,
     },
   },
-
-  
-
-  mounted() {
-    if (this.id) {
-      const projeto = this.store.state.projetos.find(
-        (proj) => proj.id == this.id
-      );
-      this.nomeDoProjeto = projeto?.nome || "";
-    }
-  },
-  data() {
-    return {
-      nomeDoProjeto: "",
-    };
-  },
-  setup() {
+  setup(props) {
     const store = useStore();
     const {notificar} = useNotificador()
+    const router = useRouter()
+
+    const nomeDoProjeto = ref("")
+    if(props.id){
+  const projeto = store.state.projeto.projetos.find(
+        (proj) => proj.id == props.id
+      );
+      nomeDoProjeto.value = projeto?.nome || "";
+    }
+
+     const salvar = () => {
+      if (props.id) {
+        store.dispatch(EDITAR_PROJETOS, {
+          id: props.id,
+          nome: nomeDoProjeto.value,
+        }).then(() => lidarComSucesso());
+      } else {
+        store.dispatch(CADASTRA_PROJETOS, nomeDoProjeto.value)
+        .then(() => lidarComSucesso());
+      }
+      
+    }
+   const lidarComSucesso = () => {
+        nomeDoProjeto.value = "";
+      notificar(TipoNoficacao.SUCESSO, 'sucesso!','tudo ok!')
+      router.push("/projetos");
+    }
+    
     return {
-      store,
-      notificar
+      nomeDoProjeto,
+      salvar,
+      lidarComSucesso
     };
   },
 
   methods: {
-    salvar() {
-      if (this.id) {
-        this.store.dispatch(EDITAR_PROJETOS, {
-          id: this.id,
-          nome: this.nomeDoProjeto,
-        }).then(() => this.lidarComSucesso());
-      } else {
-        this.store.dispatch(CADASTRA_PROJETOS, this.nomeDoProjeto)
-        .then(() => this.lidarComSucesso());
-      }
-      
-    },
-    lidarComSucesso(){
-        this.nomeDoProjeto = "";
-      this.notificar(TipoNoficacao.SUCESSO, 'sucesso!','tudo ok!')
-      this.$router.push("/projetos");
-    }
+   
+    
   },
 });
 </script>
